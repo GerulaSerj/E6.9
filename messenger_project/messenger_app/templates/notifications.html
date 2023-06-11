@@ -1,0 +1,14 @@
+{% extends 'registration_form.html' %}
+
+{% block content %}
+  <h2>Уведомления</h2>
+  {% if notifications %}
+    <ul>
+      {% for notification in notifications %}
+        <li>{{ notification.message }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Нет новых уведомлений.</p>
+  {% endif %}
+{% endblock %}
