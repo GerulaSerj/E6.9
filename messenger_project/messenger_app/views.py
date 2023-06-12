@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from .models import User, GroupChat, Message
 from .serializers import UserSerializer, GroupChatSerializer, MessageSerializer
@@ -45,7 +46,13 @@ def index(request):
             # Создайте нового пользователя с указанным именем и аватаром
             user = User(name=username, avatar=avatar)
             user.save()
-            return redirect('user-list')  # Перенаправьте пользователя на список пользователей
+
+            # Выполните аутентификацию пользователя и установите его сеанс
+            user = authenticate(username=username, password=None)
+            login(request, user)
+
+            return redirect('chat-list')  # Перенаправьте пользователя на страницу chat.html
+
     return render(request, 'index.html')
 
 def messages(request):
@@ -56,6 +63,10 @@ def notifications(request):
     user = request.user
     notifications = Notification.objects.filter(user=user).order_by('-created_at')
     return render(request, 'notifications.html', {'notifications': notifications})
+@login_required
+def chat_list(request):
+    chats = GroupChat.objects.all()
+    return render(request, 'chat.html', {'chats': chats})
 
 def login(request):
     # Обработка запроса на вход пользователя

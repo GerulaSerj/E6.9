@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Messenger App - Login</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Messenger App</h1>
+        <div id="loginSection">
+            <h2>Login</h2>
+            <form id="loginForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="input-field">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-field">
+                    <label for="avatar">Avatar:</label>
+                    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+                </div>
+                <button class="button" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
+
