@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать групповой чат</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Редактировать групповой чат</h1>
+
+        <form id="edit-chat-form">
+            <label for="chat_name">Название чата:</label>
+            <input type="text" id="chat_name" name="chat_name">
+
+            <label for="users">Участники:</label>
+            <select id="users" name="users" multiple>
+                <!-- Вставьте здесь список участников чата -->
+            </select>
+
+            <button type="submit">Сохранить</button>
+        </form>
+
+        <button id="delete-chat-btn">Удалить чат</button>
+    </div>
+
+    <script src="{% static 'js/edit_chat.js' %}"></script>
+</body>

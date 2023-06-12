@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Messenger App - Chat</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Messenger App</h1>
+
+        <div id="messengerSection">
+            <h2>Users</h2>
+            <select id="userList"></select>
+
+            <h2>Chat Rooms</h2>
+            <select id="chatList"></select>
+
+            <button id="joinChatButton" class="button">Join Chat</button>
+            <button id="sendMessageButton" class="button">Send Message</button>
+            <button id="editProfileButton" class="button">Edit Profile</button>
+        </div>
+
+        <div id="createChatSection">
+            <h2>Create Chat</h2>
+            <input type="text" id="chatName" placeholder="Chat Name" required>
+            <input type="text" id="inviteUsers" placeholder="Invite Users (comma-separated)">
+            <button id="createChatButton" class="button">Create</button>
+        </div>
+
+        <div id="sendMessageSection">
+            <h2>Send Message</h2>
+            <select id="recipientList"></select>
+            <input type="text" id="messageText" placeholder="Message" required>
+            <button id="sendMessageSubmit" class="button">Send</button>
+        </div>
+
+        <div id="editProfileSection">
+            <h2>Edit Profile</h2>
+            <input type="text" id="newUsername" placeholder="New Username">
+            <input type="file" id="newAvatar" accept="image/png, image/jpeg">
+            <button id="saveProfileButton" class="button">Save</button>
+        </div>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/chat.js' %}"></script>
+</body>
+</html>

@@ -88,7 +88,7 @@ def create_chat(request):
 def delete_chat(request, chat_id):
     chat = GroupChat.objects.get(pk=chat_id)
     chat.delete()
-    return redirect('chat-list')
+    return JsonResponse({'success': True})
 
 def edit_chat(request, chat_id):
     chat = GroupChat.objects.get(pk=chat_id)
@@ -100,8 +100,11 @@ def edit_chat(request, chat_id):
             chat.name = chat_name
             chat.members.set(user_ids)
             chat.save()
-            return redirect('chat-list')
-    return render(request, 'edit_chat.html', {'chat': chat, 'users': User.objects.all()})
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'message': 'Invalid data'})
+    else:
+        return JsonResponse({'success': False, 'message': 'Invalid request method'})
 
 def delete_group_chat(request, chat_id):
     if not user_logged_in(request):
@@ -121,6 +124,25 @@ def send_message(request):
             return redirect('chat-list')
     return render(request, 'send_message.html', {'users': User.objects.all(), 'chats': GroupChat.objects.all()})
 
+def edit_message(request, message_id):
+    message = Message.objects.get(pk=message_id)
+    if request.method == 'POST':
+        message_text = request.POST.get('message_text')
+        if message_text:
+            # Обновите текст сообщения
+            message.text = message_text
+            message.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'message': 'Invalid data'})
+    else:
+        return JsonResponse({'success': False, 'message': 'Invalid request method'})
+
+def delete_message(request, message_id):
+    message = Message.objects.get(pk=message_id)
+    message.delete()
+    return JsonResponse({'success': True})
+
 def edit_profile(request):
     user = User.objects.first()  # Здесь можно использовать логику для выбора текущего пользователя
     if request.method == 'POST':
@@ -132,8 +154,11 @@ def edit_profile(request):
 
 def user_list(request):
     users = User.objects.all()
-    return render(request, 'user_list.html', {'users': users})
+    return render(request, 'users.html', {'users': users})
 
 def chat_list(request):
     chats = GroupChat.objects.all()
-    return render(request, 'chat_list.html', {'chats': chats})
+    return render(request, 'chat.html', {'chats': chats})
+
+def chat_view(request):
+    return render(request, 'chat.html')
