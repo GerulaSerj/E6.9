@@ -5,7 +5,7 @@ from .models import User, GroupChat, Message
 from .serializers import UserSerializer, GroupChatSerializer, MessageSerializer
 from .models import Notification
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -21,10 +21,6 @@ class MessageViewSet(viewsets.ModelViewSet):
 
 def home(request):
     return render(request, 'home.html')
-
-
-from django.shortcuts import render
-
 
 def registration(request):
     if request.method == 'POST':
@@ -53,52 +49,64 @@ def notifications(request):
     return render(request, 'notifications.html', {'notifications': notifications})
 
 def login(request):
-  if request.method == 'POST':
-    username = request.POST.get('username')
-    avatar = request.POST.get('avatar')
+    # Обработка запроса на вход пользователя
+    if request.method == 'POST':
+        data = request.json()
 
-    if username and avatar:
-      # Сохраните информацию о пользователе (например, в сессии или базе данных)
+        # Проверяем данные пользователя и выполняем вход
+        if 'username' in data and 'avatar' in data:
+            # Ваш код для выполнения входа пользователя
 
-      # Разрешите доступ к функционалу создания, редактирования и удаления групповых чатов
-      # и отправки сообщений
-
-      return JsonResponse({'message': 'Login successful'})
-
-  return JsonResponse({'error': 'Invalid request'})
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'message': 'Invalid login credentials'})
+    else:
+        return JsonResponse({'success': False, 'message': 'Invalid request method'})
 
 def create_group_chat(request):
-  if not user_logged_in(request):
-    return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
+    if not user_logged_in(request):
+        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
 
-  # Реализуйте логику создания группового чата
+    # Реализуйте логику создания группового чата
 
 def edit_group_chat(request, chat_id):
-  if not user_logged_in(request):
-    return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
+    if not user_logged_in(request):
+        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
 
-  # Реализуйте логику редактирования группового чата
+    # Реализуйте логику редактирования группового чата
 
 def delete_group_chat(request, chat_id):
-  if not user_logged_in(request):
-    return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
+    if not user_logged_in(request):
+        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
 
-  # Реализуйте логику удаления группового чата
+    # Реализуйте логику удаления группового чата
 
 def send_message(request):
-  if not user_logged_in(request):
-    return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
+    if not user_logged_in(request):
+        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
 
-  # Реализуйте логику отправки сообщения
+    # Реализуйте логику отправки сообщения
 
 def edit_user_info(request):
-  if not user_logged_in(request):
-    return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
+    if not user_logged_in(request):
+        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
 
-  # Реализуйте логику редактирования информации о пользователе
+    # Реализуйте логику редактирования информации о пользователе
 
 def get_user_list(request):
-  if not user_logged_in(request):
-    return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
+    if not user_logged_in(request):
+        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
 
-  # Реализуйте логику получения списка других пользователей
+    # Реализуйте логику получения списка других пользователей
+
+def user_list(request):
+    # Получение списка пользователей
+    # Ваш код для получения списка пользователей
+
+    return JsonResponse({'success': True, 'users': []})
+
+def chat_list(request):
+    # Получение списка групповых чатов
+    # Ваш код для получения списка групповых чатов
+
+    return JsonResponse({'success': True, 'chats': []})

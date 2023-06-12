@@ -24,18 +24,34 @@
         </div>
         <div id="messengerSection" style="display: none;">
             <h2>Messenger</h2>
-
-            <div id="messageList">
-                <!-- Здесь будет отображаться список сообщений -->
-            </div>
-
-            <form id="sendMessageForm">
-                <div class="input-field">
-                    <label for="messageText">Message</label>
-                    <input type="text" id="messageText">
-                </div>
+            <div id="userListSection">
+                <h3>Users</h3>
+                <select id="userList" size="5">
+                    <!-- Здесь будут отображаться все пользователи -->
+                </select>
                 <button class="button" id="sendMessageButton">Send Message</button>
-            </form>
+            </div>
+            <div id="chatListSection">
+                <h3>Chat Rooms</h3>
+                <select id="chatList" size="5">
+                    <!-- Здесь будут отображаться все групповые чаты -->
+                </select>
+                <button class="button" id="createChatButton">Create Chat</button>
+                <button class="button" id="editChatButton">Edit Chat</button>
+                <button class="button" id="deleteChatButton">Delete Chat</button>
+            </div>
+            <div id="profileSection">
+                <h3>Profile</h3>
+                <div class="input-field">
+                    <label for="newUsername">Username</label>
+                    <input type="text" id="newUsername">
+                </div>
+                <div class="input-field">
+                    <label for="newAvatar">Avatar</label>
+                    <input type="text" id="newAvatar">
+                </div>
+                <button class="button" id="saveProfileButton">Save</button>
+            </div>
         </div>
     </div>
 
