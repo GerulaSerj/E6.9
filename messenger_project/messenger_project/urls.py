@@ -14,6 +14,7 @@ router.register(r'messages', views.MessageViewSet)
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('', views.messages, name='messages'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('registration/', views.registration, name='registration'),

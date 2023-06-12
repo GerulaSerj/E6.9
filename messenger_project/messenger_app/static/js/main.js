@@ -1,120 +1,129 @@
 
-// Определение базового URL для API
-const BASE_URL = 'http://localhost:8000/api';
+// Функция для отображения списка сообщений
+function displayMessages(messages) {
+  var messageList = document.getElementById('messageList');
+  messageList.innerHTML = '';
+
+  messages.forEach(function(message) {
+    var listItem = document.createElement('li');
+    listItem.textContent = message.text;
+    messageList.appendChild(listItem);
+  });
+}
 
 // Функция для отправки сообщения
-function sendMessage(message) {
-    fetch(`${BASE_URL}/messages/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: message }),
-    })
-    .then(response => response.json())
-    .then(data => {
-    //     // Обработка ответа от сервера
-    })
-    .catch(error => {
-    //     // Обработка ошибок
-    });
-}
+function sendMessage() {
+  var messageText = document.getElementById('messageText').value;
 
-// Функция для получения сообщений
-function getMessages() {
-    fetch(`${BASE_URL}/messages/`)
-    .then(response => response.json())
-    .then(data => {
-    //     // Обработка полученных сообщений
-    })
-    .catch(error => {
-    //     // Обработка ошибок
-    });
-}
+  if (messageText) {
+    // Отправка запроса на сервер для отправки сообщения
+    // Используйте AJAX или fetch API для отправки данных на сервер
 
-// Функция для создания группового чата
-function createGroupChat(name) {
-    fetch(`${BASE_URL}/group-chats/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: name }),
+    // Пример использования fetch API для отправки сообщения
+    fetch('/api/messages', {
+      method: 'POST',
+      body: JSON.stringify({ text: messageText }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
-    .then(response => response.json())
-    .then(data => {
-        // Обработка ответа от сервера
-    })
-    .catch(error => {
-    //     // Обработка ошибок
-    });
-}
+      .then(response => response.json())
+      .then(data => {
+        // Проверяем ответ от сервера и обновляем интерфейс при успешной отправке
+        if (data.success) {
+          // Очищаем поле ввода сообщения
+          document.getElementById('messageText').value = '';
 
-// Функция для редактирования группового чата
-function editGroupChat(chatId, newName) {
-    fetch(`${BASE_URL}/group-chats/${chatId}/`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: newName }),
-    })
-    .then(response => response.json())
-    .then(data => {
-    //     // Обработка ответа от сервера
-    })
-    .catch(error => {
-    //     // Обработка ошибок
-    });
-}
-
-// Функция для удаления группового чата
-function deleteGroupChat(chatId) {
-    fetch(`${BASE_URL}/group-chats/${chatId}/`, {
-        method: 'DELETE',
-    })
-    .then(response => {
-        if (response.ok) {
-    //         // Групповой чат успешно удален
+          // Обновляем список сообщений
+          getMessages();
         } else {
-    //         // Ошибка при удалении группового чата
+          // Вывести сообщение об ошибке, если отправка не удалась
         }
-    })
-    .catch(error => {
-    //     // Обработка ошибок
-    });
+      })
+      .catch(error => {
+        // Обработать ошибку при отправке запроса на сервер
+      });
+  } else {
+    alert('Please enter a message');
+  }
 }
 
-// Функция для редактирования личной информации пользователя
-function editUserProfile(name, avatar) {
-    fetch(`${BASE_URL}/users/current/`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: name, avatar: avatar }),
-    })
+// Функция для получения списка сообщений
+function getMessages() {
+  // Отправка запроса на сервер для получения списка сообщений
+  // Используйте AJAX или fetch API для получения данных с сервера
+
+  // Пример использования fetch API для получения списка сообщений
+  fetch('/api/messages')
     .then(response => response.json())
     .then(data => {
-    // Обработка ответа от сервера
+      // Проверяем ответ от сервера и отображаем список сообщений
+      if (data.success) {
+        displayMessages(data.messages);
+      } else {
+        // Вывести сообщение об ошибке, если получение не удалось
+      }
     })
     .catch(error => {
-    // Обработка ошибок
+      // Обработать ошибку при отправке запроса на сервер
     });
 }
 
-// Функция для получения списка пользователей
-function getUsers() {
-    fetch(`${BASE_URL}/users/`)
-    .then(response => response.json())
-    .then(data => {
-    //     // Обработка полученного списка пользователей
+// Функция для выполнения входа пользователя
+function login() {
+  var username = document.getElementById('username').value;
+  var avatar = document.getElementById('avatar').value;
+
+  if (username && avatar) {
+    // Отправка запроса на сервер для входа пользователя
+    // Используйте AJAX или fetch API для отправки данных о пользователе на сервер
+
+    // Пример использования fetch API для отправки данных о пользователе
+    fetch('/api/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, avatar }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
-    .catch(error => {
-    // Обработка ошибок
-    });
+      .then(response => response.json())
+      .then(data => {
+        // Проверяем ответ от сервера и выполняем соответствующие действия
+        if (data.success) {
+          // Разблокируем функционал создания, редактирования и удаления групповых чатов
+          // и отправки сообщений после успешного входа
+
+          // Пример разблокировки функционала:
+          // document.getElementById('createChatButton').disabled = false;
+          // document.getElementById('editChatButton').disabled = false;
+          // document.getElementById('deleteChatButton').disabled = false;
+          // document.getElementById('sendMessageButton').disabled = false;
+
+          // Отобразить соответствующие сообщения или обновить интерфейс при успешном входе
+
+          // Показать секцию мессенджера
+          document.getElementById('loginSection').style.display = 'none';
+          document.getElementById('messengerSection').style.display = 'block';
+
+          // Получить и отобразить список сообщений
+          getMessages();
+        } else {
+          // Вывести сообщение об ошибке, если вход не удался
+          alert('Login failed. Please check your credentials and try again.');
+        }
+      })
+      .catch(error => {
+        // Обработать ошибку при отправке запроса на сервер
+        console.error('An error occurred during login:', error);
+        alert('An error occurred during login. Please try again later.');
+      });
+  } else {
+    alert('Please enter your username and avatar');
+  }
 }
 
-// Вызов функций и обработка событий
-// Напишите код для вызова функций и обработки событий на вашей странице
-// Например, добавьте обработчики событий для кнопок и форм в вашем HTML-шаблоне
+// Назначить обработчик события нажатия на кнопку "Login"
+document.getElementById('loginButton').addEventListener('click', login);
+
+// Назначить обработчик события нажатия на кнопку "Send Message"
+document.getElementById('sendMessageButton').addEventListener('click', sendMessage);
