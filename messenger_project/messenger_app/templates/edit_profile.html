@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Messenger App - Edit Profile</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Messenger App - Edit Profile</h1>
+        <div id="editProfileSection">
+            <h2>Edit Profile</h2>
+            <div class="input-field">
+                <label for="newUsername">Username:</label>
+                <input type="text" id="newUsername">
+            </div>
+            <div class="input-field">
+                <label for="newAvatar">Avatar:</label>
+                <input type="file" id="newAvatar" accept="image/png, image/jpeg">
+            </div>
+            <button class="button" id="saveButton">Save</button>
+        </div>
+    </div>
+
+    <script src="{% static 'js/edit_profile.js' %}"></script>
+</body>
+</html>

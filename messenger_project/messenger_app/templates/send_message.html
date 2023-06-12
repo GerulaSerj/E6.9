@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Messenger App - Send Message</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Messenger App - Send Message</h1>
+        <div id="sendMessageSection">
+            <h2>Send Message</h2>
+            <div class="input-field">
+                <label for="recipient">Recipient:</label>
+                <select id="recipient">
+                    <!-- Здесь будут отображаться все пользователи для выбора -->
+                </select>
+            </div>
+            <div class="input-field">
+                <label for="message">Message:</label>
+                <textarea id="message"></textarea>
+            </div>
+            <button class="button" id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <script src="{% static 'js/send_message.js' %}"></script>
+</body>
+</html>

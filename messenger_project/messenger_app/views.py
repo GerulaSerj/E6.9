@@ -37,6 +37,15 @@ def registration(request):
     return render(request, 'registration_form.html', {'form': form})
 
 def index(request):
+    # Обработка запроса на вход пользователя
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        avatar = request.FILES.get('avatar')
+        if username and avatar:
+            # Создайте нового пользователя с указанным именем и аватаром
+            user = User(name=username, avatar=avatar)
+            user.save()
+            return redirect('user-list')  # Перенаправьте пользователя на список пользователей
     return render(request, 'index.html')
 
 def messages(request):
@@ -51,29 +60,48 @@ def notifications(request):
 def login(request):
     # Обработка запроса на вход пользователя
     if request.method == 'POST':
-        data = request.json()
-
-        # Проверяем данные пользователя и выполняем вход
-        if 'username' in data and 'avatar' in data:
-            # Ваш код для выполнения входа пользователя
-
+        username = request.POST.get('username')
+        avatar = request.FILES.get('avatar')
+        if username and avatar:
+            # Создайте нового пользователя с указанным именем и аватаром
+            user = User(name=username, avatar=avatar)
+            user.save()
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'message': 'Invalid login credentials'})
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method'})
 
-def create_group_chat(request):
-    if not user_logged_in(request):
-        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
+def create_chat(request):
+    if request.method == 'POST':
+        chat_name = request.POST.get('chat_name')
+        user_ids = request.POST.getlist('users')
+        if chat_name and user_ids:
+            # Создайте новый групповой чат с указанным названием и участниками
+            chat = GroupChat(name=chat_name)
+            chat.save()
+            chat.members.set(user_ids)
+            chat.save()
+            return redirect('chat-list')
+    return render(request, 'create_chat.html', {'users': User.objects.all()})
 
-    # Реализуйте логику создания группового чата
+def delete_chat(request, chat_id):
+    chat = GroupChat.objects.get(pk=chat_id)
+    chat.delete()
+    return redirect('chat-list')
 
-def edit_group_chat(request, chat_id):
-    if not user_logged_in(request):
-        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
-
-    # Реализуйте логику редактирования группового чата
+def edit_chat(request, chat_id):
+    chat = GroupChat.objects.get(pk=chat_id)
+    if request.method == 'POST':
+        chat_name = request.POST.get('chat_name')
+        user_ids = request.POST.getlist('users')
+        if chat_name and user_ids:
+            # Обновите название и участников группового чата
+            chat.name = chat_name
+            chat.members.set(user_ids)
+            chat.save()
+            return redirect('chat-list')
+    return render(request, 'edit_chat.html', {'chat': chat, 'users': User.objects.all()})
 
 def delete_group_chat(request, chat_id):
     if not user_logged_in(request):
@@ -82,31 +110,30 @@ def delete_group_chat(request, chat_id):
     # Реализуйте логику удаления группового чата
 
 def send_message(request):
-    if not user_logged_in(request):
-        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
+    if request.method == 'POST':
+        sender_id = request.POST.get('sender')
+        chat_id = request.POST.get('chat')
+        message_text = request.POST.get('message_text')
+        if sender_id and chat_id and message_text:
+            # Создайте новое сообщение и свяжите его с отправителем и групповым чатом
+            message = Message(text=message_text, sender_id=sender_id, group_chat_id=chat_id)
+            message.save()
+            return redirect('chat-list')
+    return render(request, 'send_message.html', {'users': User.objects.all(), 'chats': GroupChat.objects.all()})
 
-    # Реализуйте логику отправки сообщения
-
-def edit_user_info(request):
-    if not user_logged_in(request):
-        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
-
-    # Реализуйте логику редактирования информации о пользователе
-
-def get_user_list(request):
-    if not user_logged_in(request):
-        return JsonResponse({'error': 'Please login first'})  # Верните ошибку, если пользователь не вошел
-
-    # Реализуйте логику получения списка других пользователей
+def edit_profile(request):
+    user = User.objects.first()  # Здесь можно использовать логику для выбора текущего пользователя
+    if request.method == 'POST':
+        user.name = request.POST.get('username')
+        user.avatar = request.FILES.get('avatar')
+        user.save()
+        return redirect('user-list')
+    return render(request, 'edit_profile.html', {'user': user})
 
 def user_list(request):
-    # Получение списка пользователей
-    # Ваш код для получения списка пользователей
-
-    return JsonResponse({'success': True, 'users': []})
+    users = User.objects.all()
+    return render(request, 'user_list.html', {'users': users})
 
 def chat_list(request):
-    # Получение списка групповых чатов
-    # Ваш код для получения списка групповых чатов
-
-    return JsonResponse({'success': True, 'chats': []})
+    chats = GroupChat.objects.all()
+    return render(request, 'chat_list.html', {'chats': chats})

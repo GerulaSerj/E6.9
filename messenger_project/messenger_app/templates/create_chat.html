@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Messenger App - Create Chat</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Messenger App - Create Chat</h1>
+        <div id="createChatSection">
+            <h2>Create Chat</h2>
+            <div class="input-field">
+                <label for="chatName">Chat Name:</label>
+                <input type="text" id="chatName">
+            </div>
+            <div class="input-field">
+                <label for="inviteUsers">Invite Users:</label>
+                <select id="inviteUsers" multiple>
+                    <!-- Здесь будут отображаться все пользователи для выбора -->
+                </select>
+            </div>
+            <button class="button" id="createButton">Create</button>
+        </div>
+    </div>
+
+    <script src="{% static 'js/create_chat.js' %}"></script>
+</body>
+</html>

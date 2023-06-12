@@ -12,46 +12,22 @@
         <h1>Messenger App</h1>
         <div id="loginSection">
             <h2>Login</h2>
-            <div class="input-field">
-                <label for="username">Username</label>
-                <input type="text" id="username">
-            </div>
-            <div class="input-field">
-                <label for="avatar">Avatar</label>
-                <input type="text" id="avatar">
-            </div>
-            <button class="button" id="loginButton">Login</button>
-        </div>
-        <div id="messengerSection" style="display: none;">
-            <h2>Messenger</h2>
-            <div id="userListSection">
-                <h3>Users</h3>
-                <select id="userList" size="5">
-                    <!-- Здесь будут отображаться все пользователи -->
-                </select>
-                <button class="button" id="sendMessageButton">Send Message</button>
-            </div>
-            <div id="chatListSection">
-                <h3>Chat Rooms</h3>
-                <select id="chatList" size="5">
-                    <!-- Здесь будут отображаться все групповые чаты -->
-                </select>
-                <button class="button" id="createChatButton">Create Chat</button>
-                <button class="button" id="editChatButton">Edit Chat</button>
-                <button class="button" id="deleteChatButton">Delete Chat</button>
-            </div>
-            <div id="profileSection">
-                <h3>Profile</h3>
+            <form id="loginForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="input-field">
-                    <label for="newUsername">Username</label>
-                    <input type="text" id="newUsername">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
                 </div>
                 <div class="input-field">
-                    <label for="newAvatar">Avatar</label>
-                    <input type="text" id="newAvatar">
+                    <label for="avatar">Avatar:</label>
+                    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
                 </div>
-                <button class="button" id="saveProfileButton">Save</button>
-            </div>
+                <div class="input-field">
+                    <label for="avatarLink">Avatar Link:</label>
+                    <input type="url" id="avatarLink" name="avatarLink">
+                </div>
+                <button class="button" type="submit">Login</button>
+            </form>
         </div>
     </div>
 

@@ -1,6 +1,11 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as AuthUser
+
+
+class User(models.Model):
+    name = models.CharField(max_length=100)
+    avatar = models.ImageField(upload_to='avatars/')
 
 
 class GroupChat(models.Model):
