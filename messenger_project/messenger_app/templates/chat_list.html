@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Список групповых чатов и пользователей</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <h1>Список групповых чатов</h1>
+  <ul id="groupChatList">
+    {% for chat in chats %}
+      <li>{{ chat.name }}</li>
+    {% endfor %}
+  </ul>
+
+  <h1>Список пользователей</h1>
+  <ul id="userList">
+    {% for user in users %}
+      <li>{{ user.username }}</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'messenger_app:create_chat' %}" class="btn btn-primary">Создать чат</a>
+  <a href="{% url 'messenger_app:join_chat' %}" class="btn btn-primary">Войти в групповой чат</a>
+  <a href="{% url 'messenger_app:message_user' %}" class="btn btn-primary">Написать сообщение пользователю</a>
+  <a href="{% url 'messenger_app:edit_profile' %}" class="btn btn-primary">Редактировать профиль</a>
+
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

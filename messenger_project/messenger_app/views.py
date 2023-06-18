@@ -33,7 +33,7 @@ def index(request):
 @login_required
 def chat_list(request):
     chats = GroupChat.objects.all()
-    return render(request, 'chat.html', {'chats': chats})
+    return render(request, 'chat_list.html', {'chats': chats})
 
 def create_chat(request):
     if request.method == 'POST':
